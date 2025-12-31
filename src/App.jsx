@@ -44,7 +44,7 @@ export default function App() {
 
   // --- State ---
   const [watts, setWatts] = useState(2000); // Default to a heater
-  const [hours, setHours] = useState(4);
+  const [hours, setHours] = useState(2);
   const [rate, setRate] = useState(6.0); // Default rate
   const [selectedDevice, setSelectedDevice] = useState('heater_l');
   const [showSettings, setShowSettings] = useState(false);
