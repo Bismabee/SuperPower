@@ -421,6 +421,18 @@ export default function App() {
 
       </main>
 
+      {/* --- Version Disclaimer --- */}
+      <div className="max-w-md mx-auto px-4 py-6">
+        <div className="bg-red-50 border-2 border-red-200 rounded-2xl p-4 text-center">
+          <p className="text-sm font-semibold text-red-700 mb-1">
+            ⚠️ Version 1.0 (Beta)
+          </p>
+          <p className="text-xs text-red-600 leading-relaxed">
+            This is the first version. There may be some mistakes or bugs. We will fix them in Version 2. Thank you for your patience!
+          </p>
+        </div>
+      </div>
+
       {/* --- Help Dialog --- */}
       {helpDialog && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setHelpDialog(null)}>
