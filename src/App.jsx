@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   Lightbulb, 
   Thermometer, 
@@ -16,6 +16,7 @@ import {
   Box,
   Droplets
 } from 'lucide-react';
+import SplashScreen from './components/SplashScreen';
 
 // --- Configuration & Presets ---
 // Common wattages based on typical usage
@@ -37,12 +38,24 @@ const DEVICE_PRESETS = [
 ];
 
 export default function App() {
+  // --- Splash Screen State ---
+  const [showSplash, setShowSplash] = useState(true);
+
   // --- State ---
   const [watts, setWatts] = useState(2000); // Default to a heater
   const [hours, setHours] = useState(4);
   const [rate, setRate] = useState(6.0); // Default rate
   const [selectedDevice, setSelectedDevice] = useState('heater_l');
   const [showSettings, setShowSettings] = useState(false);
+
+  // --- Splash Screen Timer ---
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000); // 3 seconds
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // --- Calculations ---
   // Formula: (Watts * Hours) / 1000 = Units (kWh)
@@ -78,6 +91,11 @@ export default function App() {
   if (costPerDay > 100) {
     costColor = "text-red-600";
     costBg = "bg-red-50";
+  }
+
+  // Show splash screen for first 3 seconds
+  if (showSplash) {
+    return <SplashScreen />;
   }
 
   return (
