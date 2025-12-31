@@ -18,6 +18,7 @@ import {
   Eye
 } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
+import ElectricityVibes from './components/ElectricityVibes';
 
 // --- Configuration & Presets ---
 // Common wattages based on typical usage
@@ -104,7 +105,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-10">
+    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-10 relative">
+      
+      {/* Electricity themed background vibes */}
+      <ElectricityVibes />
       
       {/* --- Header --- */}
       <header className="bg-white shadow-sm sticky top-0 z-10">
@@ -127,7 +131,7 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-4 pt-6 space-y-6">
+      <main className="max-w-md mx-auto px-4 pt-6 space-y-6 relative z-10">
 
         {/* --- Settings (Collapsible) --- */}
         {showSettings && (

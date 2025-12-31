@@ -12,6 +12,33 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #f9fafb;
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Electricity themed background decorations */
+body::before {
+  content: '⚡';
+  position: fixed;
+  top: 10%;
+  right: 5%;
+  font-size: 120px;
+  opacity: 0.03;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(-15deg);
+}
+
+body::after {
+  content: '⚡';
+  position: fixed;
+  bottom: 15%;
+  left: 3%;
+  font-size: 150px;
+  opacity: 0.04;
+  z-index: 0;
+  pointer-events: none;
+  transform: rotate(25deg);
 }
 
 /* Custom utilities for better touch targets on mobile */
