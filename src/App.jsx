@@ -151,6 +151,35 @@ export default function App() {
           </div>
         )}
 
+        {/* --- Quick Rate Selector --- */}
+        <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4 rounded-2xl">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Zap size={18} className="text-amber-600" />
+              <div>
+                <label className="text-sm font-semibold text-slate-700">Electricity Rate</label>
+                <p className="text-xs text-slate-500">₹ per unit (kWh)</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 bg-white rounded-lg p-1 shadow-sm">
+              <button 
+                onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(1))))}
+                className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
+              >-</button>
+              <input 
+                type="number" 
+                value={rate}
+                onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
+                className="w-16 text-center bg-transparent font-bold outline-none text-slate-800 text-lg"
+              />
+              <button 
+                onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(1)))}
+                className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
+              >+</button>
+            </div>
+          </div>
+        </section>
+
         {/* --- Step 1: Device Selection --- */}
         <section>
           <h2 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
