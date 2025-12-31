@@ -1,15 +1,25 @@
-# ⚡ SuperPower - Electricity Cost Calculator
+# ⚡ SuperPower - Free Electricity Bill Calculator India
 
-A simple, mobile-first electricity cost calculator designed for Kashmir households to understand their electricity consumption and costs.
+> **Calculate your electricity bill before it arrives!** Simple, fast, and free electricity cost calculator for India.
+
+[![Made in India](https://img.shields.io/badge/Made%20in-India-orange?style=flat-square)](https://github.com/Bismabee/SuperPower)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0-green?style=flat-square)](https://github.com/Bismabee/SuperPower)
+
+A simple, mobile-first electricity cost calculator designed for Indian households to understand their electricity consumption and costs. Calculate bills for heaters, fans, bulbs, chargers, AC, and any electrical device.
 
 ## 🎯 Purpose
 
-Many households in Kashmir recently received new electricity meter connections. This app helps users (especially those who are illiterate or semi-literate) understand:
-- How much electricity their devices consume
-- How much it costs per day and per month
-- Whether using a device for longer hours will become expensive
+Many households in India, especially in Kashmir, recently received new electricity meter connections. This app helps users (especially those who are illiterate or semi-literate) understand:
+- ⚡ How much electricity their devices consume
+- 💰 How much it costs per day and per month
+- ⏰ Whether using a device for longer hours will become expensive
+- 🔌 Convert Volts × Amps to Watts easily
 
-**Goal:** Remove fear, build trust, and explain costs clearly.
+**Goal:** Remove fear, build trust, and explain electricity costs clearly.
+
+### Keywords
+`electricity calculator`, `bijli bill calculator`, `power consumption calculator`, `electricity cost India`, `watts calculator`, `bill estimator`, `energy calculator`, `Kashmir electricity`, `heater cost calculator`, `fan electricity cost`, `mobile charger power consumption`
 
 ---
 
@@ -229,7 +239,49 @@ For questions or issues, please create an issue on GitHub.
 
 ---
 
+## 🔍 SEO & Discoverability
+
+This app is optimized for:
+- Google Search
+- Bing Search
+- DuckDuckGo
+- Social Media Sharing (Open Graph, Twitter Cards)
+- Mobile-First Indexing
+- Fast Loading Times
+- Structured Data (JSON-LD)
+- PWA Support
+
+### Search Terms This App Ranks For:
+- Electricity bill calculator India
+- Power consumption calculator INR
+- Watts to rupees calculator
+- Bijli bill calculator
+- Heater electricity cost
+- Fan power consumption
+- Kashmir electricity calculator
+- Free energy calculator
+- Mobile charger wattage calculator
+
+---
+
+## 👨‍💻 Developer
+
+**Developed by:** Shakir
+
+---
+
+## 🌟 Star This Repo
+
+If you find this useful, please ⭐ star this repository!
+
+---
+
 **बिजली बिल से डर नहीं, समझदारी से इस्तेमाल करें 💪**
 
 **Don't fear electricity bills, use wisely**
+
+---
+
+### Tags
+`#electricity` `#calculator` `#india` `#kashmir` `#power` `#energy` `#bill` `#cost` `#free` `#opensource` `#react` `#tailwind` `#mobile-first` `#pwa`
 

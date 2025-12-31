@@ -1,0 +1,22 @@
+{
+  "name": "SuperPower - Electricity Cost Calculator",
+  "short_name": "SuperPower",
+  "description": "Calculate your electricity bill before it arrives. Simple, fast, and free.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "lang": "en",
+  "dir": "ltr"
+}
+

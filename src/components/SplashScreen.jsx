@@ -14,10 +14,10 @@ export default function SplashScreen() {
         {/* Greeting */}
         <div className="space-y-2">
           <h1 className="text-5xl font-bold text-white animate-slide-up">
-            Hello Shakir
+            SuperPower
           </h1>
           <p className="text-xl text-blue-100 animate-slide-up-delay">
-            Welcome to SuperPower
+            Electricity Cost Calculator
           </p>
         </div>
 

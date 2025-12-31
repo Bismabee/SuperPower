@@ -459,6 +459,13 @@ export default function App() {
             This is the first version. There may be some mistakes or bugs. We will fix them in Version 2. Thank you for your patience!
           </p>
         </div>
+        
+        {/* Developer Credit */}
+        <div className="mt-4 text-center">
+          <p className="text-xs text-gray-500">
+            Developed by <span className="font-semibold text-gray-700">Shakir</span>
+          </p>
+        </div>
       </div>
 
       {/* --- Help Dialog --- */}
