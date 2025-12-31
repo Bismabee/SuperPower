@@ -132,17 +132,18 @@ export default function App() {
               <label className="font-medium text-slate-700">Electricity Rate (₹/unit)</label>
               <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
                 <button 
-                  onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(1))))}
+                  onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(2))))}
                   className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
                 >-</button>
                 <input 
                   type="number" 
-                  value={rate}
+                  step="0.01"
+                  value={rate.toFixed(2)}
                   onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
-                  className="w-12 text-center bg-transparent font-bold outline-none"
+                  className="w-14 text-center bg-transparent font-bold outline-none"
                 />
                 <button 
-                  onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(1)))}
+                  onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(2)))}
                   className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
                 >+</button>
               </div>
@@ -163,17 +164,18 @@ export default function App() {
             </div>
             <div className="flex items-center gap-2 bg-white rounded-lg p-1 shadow-sm">
               <button 
-                onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(1))))}
+                onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(2))))}
                 className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
               >-</button>
               <input 
                 type="number" 
-                value={rate}
+                step="0.01"
+                value={rate.toFixed(2)}
                 onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
                 className="w-16 text-center bg-transparent font-bold outline-none text-slate-800 text-lg"
               />
               <button 
-                onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(1)))}
+                onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(2)))}
                 className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
               >+</button>
             </div>
@@ -303,7 +305,7 @@ export default function App() {
           <div className="mt-4 bg-white/60 p-3 rounded-xl flex gap-3 items-start">
             <Info className="flex-shrink-0 text-slate-400 mt-0.5" size={18} />
             <p className="text-xs text-slate-600 leading-relaxed">
-              Using a <strong>{watts}W</strong> device for <strong>{hours} hours</strong> consumes <strong>{unitsPerDay.toFixed(2)} units</strong>. At ₹{rate}/unit, this costs ₹{costPerDay.toFixed(1)}.
+              Using a <strong>{watts}W</strong> device for <strong>{hours} hours</strong> consumes <strong>{unitsPerDay.toFixed(2)} units</strong>. At ₹{rate.toFixed(2)}/unit, this costs ₹{costPerDay.toFixed(2)}.
             </p>
           </div>
         </section>
