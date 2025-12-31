@@ -1,260 +1,267 @@
-import { useState } from 'react'
-import DeviceCard from './components/DeviceCard'
+import { useState } from 'react';
+import { 
+  Lightbulb, 
+  Thermometer, 
+  Wind, 
+  Tv, 
+  Smartphone, 
+  Zap, 
+  Coffee, 
+  Shirt, 
+  Flame,
+  Info,
+  Settings,
+  X,
+  SlidersHorizontal,
+  Box,
+  Droplets
+} from 'lucide-react';
 
-// Electricity rate in INR per unit (kWh)
-const RATE_PER_UNIT = 6
+// --- Configuration & Presets ---
+// Common wattages based on typical usage
+const DEVICE_PRESETS = [
+  // Custom option at the beginning
+  { id: 'custom', name: 'Custom Device', watts: 0, icon: SlidersHorizontal },
+  { id: 'bulb', name: 'LED Bulb', watts: 9, icon: Lightbulb },
+  { id: 'tube', name: 'Tube Light', watts: 20, icon: Zap },
+  { id: 'fan', name: 'Ceiling Fan', watts: 75, icon: Wind },
+  { id: 'tv', name: 'LED TV', watts: 50, icon: Tv },
+  { id: 'charger', name: 'Phone Charger', watts: 10, icon: Smartphone },
+  { id: 'blanket', name: 'Elec. Blanket', watts: 200, icon: Shirt }, 
+  { id: 'heater_s', name: 'Small Heater', watts: 1000, icon: Flame },
+  { id: 'heater_l', name: 'Blow Heater', watts: 2000, icon: Thermometer },
+  { id: 'rice', name: 'Rice Cooker', watts: 700, icon: Coffee },
+  { id: 'fridge', name: 'Refrigerator', watts: 150, icon: Box },
+  { id: 'iron', name: 'Iron', watts: 1000, icon: Shirt },
+  { id: 'geyser', name: 'Geyser', watts: 2000, icon: Droplets },
+];
 
-// Common devices with typical power consumption
-const COMMON_DEVICES = [
-  { name: 'Bulb', watts: 10, icon: '💡' },
-  { name: 'Fan', watts: 75, icon: '🌀' },
-  { name: 'Heater', watts: 2000, icon: '🔥' },
-  { name: 'Charger', watts: 20, icon: '🔌' },
-  { name: 'Fridge', watts: 150, icon: '❄️' },
-  { name: 'TV', watts: 100, icon: '📺' },
-  { name: 'Washing Machine', watts: 500, icon: '🌊' },
-  { name: 'AC', watts: 1500, icon: '❄️' },
-]
+export default function App() {
+  // --- State ---
+  const [watts, setWatts] = useState(2000); // Default to a heater
+  const [hours, setHours] = useState(4);
+  const [rate, setRate] = useState(6.0); // Default rate
+  const [selectedDevice, setSelectedDevice] = useState('heater_l');
+  const [showSettings, setShowSettings] = useState(false);
 
-function App() {
-  // State management for calculator inputs
-  const [selectedDevice, setSelectedDevice] = useState(null)
-  const [customWatts, setCustomWatts] = useState('')
-  const [hoursPerDay, setHoursPerDay] = useState('')
-  const [showResults, setShowResults] = useState(false)
+  // --- Calculations ---
+  // Formula: (Watts * Hours) / 1000 = Units (kWh)
+  const unitsPerDay = (watts * hours) / 1000;
+  const costPerDay = unitsPerDay * rate;
+  const costPerMonth = costPerDay * 30;
 
-  // Calculation logic
-  const calculateCost = () => {
-    const watts = selectedDevice ? selectedDevice.watts : parseFloat(customWatts)
-    const hours = parseFloat(hoursPerDay)
-
-    if (!watts || !hours || hours <= 0 || watts <= 0) {
-      return null
-    }
-
-    // Units per day = (Watts × Hours) / 1000
-    const unitsPerDay = (watts * hours) / 1000
-
-    // Monthly units = Units per day × 30
-    const unitsPerMonth = unitsPerDay * 30
-
-    // Cost calculation
-    const costPerDay = unitsPerDay * RATE_PER_UNIT
-    const costPerMonth = unitsPerMonth * RATE_PER_UNIT
-
-    return {
-      unitsPerDay: unitsPerDay.toFixed(2),
-      unitsPerMonth: unitsPerMonth.toFixed(2),
-      costPerDay: costPerDay.toFixed(2),
-      costPerMonth: costPerMonth.toFixed(2),
-      watts,
-      hours,
-    }
-  }
-
-  const result = showResults ? calculateCost() : null
-
-  // Reset calculator
-  const handleReset = () => {
-    setSelectedDevice(null)
-    setCustomWatts('')
-    setHoursPerDay('')
-    setShowResults(false)
-  }
-
-  // Handle device selection
+  // --- Handlers ---
   const handleDeviceSelect = (device) => {
-    setSelectedDevice(device)
-    setCustomWatts('') // Clear custom watts when device is selected
-  }
-
-  // Handle calculate button click
-  const handleCalculate = () => {
-    if ((selectedDevice || customWatts) && hoursPerDay) {
-      setShowResults(true)
+    // If Custom is clicked, just set the mode, don't change the watts
+    if (device.id === 'custom') {
+      setSelectedDevice('custom');
+      return;
     }
+    setWatts(device.watts);
+    setSelectedDevice(device.id);
+  };
+
+  const handleWattsChange = (e) => {
+    const val = parseInt(e.target.value) || 0;
+    setWatts(val);
+    setSelectedDevice('custom');
+  };
+
+  // --- Visual Logic ---
+  // Determine color urgency based on daily cost
+  let costColor = "text-emerald-600";
+  let costBg = "bg-emerald-50";
+  if (costPerDay > 50) {
+    costColor = "text-orange-600";
+    costBg = "bg-orange-50";
+  }
+  if (costPerDay > 100) {
+    costColor = "text-red-600";
+    costBg = "bg-red-50";
   }
 
   return (
-    <div className="min-h-screen py-6 px-4 flex items-center justify-center">
-      <div className="max-w-2xl w-full">
-        {/* Header */}
-        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8 mb-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
-            ⚡ Electricity Cost Calculator
-          </h1>
-          <p className="text-center text-lg md:text-xl text-gray-600">
-            Know your electricity bill in advance
-          </p>
+    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans pb-10">
+      
+      {/* --- Header --- */}
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="bg-yellow-400 p-2 rounded-lg text-white">
+              <Zap size={24} fill="currentColor" />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight text-slate-800">SuperPower</h1>
+              <p className="text-xs text-slate-500">Electricity Calculator</p>
+            </div>
+          </div>
+          <button 
+            onClick={() => setShowSettings(!showSettings)}
+            className="p-2 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-full transition-colors"
+          >
+            {showSettings ? <X size={20} /> : <Settings size={20} />}
+          </button>
         </div>
+      </header>
 
-        {/* Main Calculator Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-6 md:p-8">
-          {!showResults ? (
-            <>
-              {/* Step 1: Select Device */}
-              <div className="mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                  1. Select Device
-                </h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                  {COMMON_DEVICES.map((device, index) => (
-                    <DeviceCard
-                      key={index}
-                      device={device}
-                      isSelected={selectedDevice?.name === device.name}
-                      onClick={() => handleDeviceSelect(device)}
-                    />
-                  ))}
-                </div>
-              </div>
+      <main className="max-w-md mx-auto px-4 pt-6 space-y-6">
 
-              {/* Custom Device Input */}
-              <div className="mb-8">
-                <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
-                  Or Enter Custom Watts
-                </h2>
-                <input
-                  type="number"
-                  value={customWatts}
-                  onChange={(e) => {
-                    setCustomWatts(e.target.value)
-                    setSelectedDevice(null)
-                  }}
-                  placeholder="e.g. 100"
-                  className="w-full text-2xl md:text-3xl p-4 md:p-6 border-4 border-gray-300 rounded-2xl focus:border-primary focus:outline-none text-center font-bold touch-target"
+        {/* --- Settings (Collapsible) --- */}
+        {showSettings && (
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 animate-in slide-in-from-top-4 duration-300">
+            <h3 className="font-semibold text-sm text-slate-500 mb-3 uppercase tracking-wider">Settings</h3>
+            <div className="flex items-center justify-between">
+              <label className="font-medium text-slate-700">Electricity Rate (₹/unit)</label>
+              <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+                <button 
+                  onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(1))))}
+                  className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
+                >-</button>
+                <input 
+                  type="number" 
+                  value={rate}
+                  onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
+                  className="w-12 text-center bg-transparent font-bold outline-none"
                 />
-                <p className="text-center text-sm md:text-base text-gray-500 mt-2">
-                  Check the device label or manual
-                </p>
+                <button 
+                  onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(1)))}
+                  className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
+                >+</button>
               </div>
+            </div>
+            <p className="text-xs text-slate-400 mt-2">Adjust this if the government changes the price.</p>
+          </div>
+        )}
 
-              {/* Step 2: Hours Per Day */}
-              <div className="mb-8">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
-                  2. Hours Per Day?
-                </h2>
-                <input
-                  type="number"
-                  value={hoursPerDay}
-                  onChange={(e) => setHoursPerDay(e.target.value)}
-                  placeholder="e.g. 5"
-                  className="w-full text-2xl md:text-3xl p-4 md:p-6 border-4 border-gray-300 rounded-2xl focus:border-primary focus:outline-none text-center font-bold touch-target"
-                />
-                <p className="text-center text-sm md:text-base text-gray-500 mt-2">
-                  How many hours will you use it daily?
-                </p>
+        {/* --- Step 1: Device Selection --- */}
+        <section>
+          <h2 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+            <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+            Select Device
+          </h2>
+          <div className="grid grid-cols-4 gap-2">
+            {DEVICE_PRESETS.map((device) => {
+              const isSelected = selectedDevice === device.id;
+              const isCustom = device.id === 'custom';
+              const Icon = device.icon;
+              
+              // Custom Logic for Styles
+              let cardStyles = "bg-white border-gray-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50";
+              if (isSelected) {
+                if (isCustom) {
+                   cardStyles = "bg-purple-600 border-purple-600 text-white shadow-md scale-105";
+                } else {
+                   cardStyles = "bg-blue-600 border-blue-600 text-white shadow-md scale-105";
+                }
+              } else if (isCustom) {
+                // Unselected Custom Style
+                cardStyles = "bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100 hover:border-purple-300";
+              }
 
-                {/* Quick Hour Buttons */}
-                <div className="grid grid-cols-4 gap-2 md:gap-3 mt-4">
-                  {[1, 2, 5, 10].map((hours) => (
-                    <button
-                      key={hours}
-                      onClick={() => setHoursPerDay(hours.toString())}
-                      className="bg-gray-100 hover:bg-primary hover:text-white text-gray-800 font-bold py-3 md:py-4 px-4 rounded-xl text-lg md:text-xl transition-colors touch-target"
-                    >
-                      {hours}h
-                    </button>
-                  ))}
-                </div>
-              </div>
+              return (
+                <button
+                  key={device.id}
+                  onClick={() => handleDeviceSelect(device)}
+                  className={`
+                    flex flex-col items-center justify-center p-2 rounded-xl border transition-all duration-200
+                    ${cardStyles}
+                  `}
+                >
+                  <Icon size={24} strokeWidth={1.5} className="mb-1" />
+                  <span className="text-[10px] font-medium leading-tight text-center">{device.name}</span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
 
-              {/* Calculate Button */}
-              <button
-                onClick={handleCalculate}
-                disabled={!(selectedDevice || customWatts) || !hoursPerDay}
-                className="w-full bg-primary hover:bg-green-600 disabled:bg-gray-300 text-white font-bold py-5 md:py-6 px-6 rounded-2xl text-2xl md:text-3xl transition-colors shadow-lg disabled:cursor-not-allowed touch-target"
-              >
-                {!(selectedDevice || customWatts) || !hoursPerDay
-                  ? '⚠️ Please Fill All Fields'
-                  : '🧮 Calculate Cost'}
-              </button>
-            </>
-          ) : (
-            <>
-              {/* Results Display */}
-              {result && (
-                <>
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                      📊 Your Electricity Cost
-                    </h2>
-                  </div>
+        {/* --- Step 2: Fine Tune Controls --- */}
+        <section className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-6">
+          
+          {/* Watts Input */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-end">
+              <label className="text-sm font-semibold text-slate-500">Power (Watts)</label>
+              <span className="text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded">
+                1000W = 1 Unit / Hour
+              </span>
+            </div>
+            <div className="relative">
+              <input
+                type="number"
+                value={watts}
+                onChange={handleWattsChange}
+                className={`w-full text-3xl font-bold bg-gray-50 border-none rounded-xl p-3 focus:ring-2 transition-all outline-none ${selectedDevice === 'custom' ? 'text-purple-700 focus:ring-purple-500' : 'text-slate-800 focus:ring-blue-500'}`}
+              />
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">W</span>
+            </div>
+          </div>
 
-                  {/* Device Info */}
-                  <div className="bg-blue-50 rounded-2xl p-4 md:p-6 mb-6">
-                    <div className="text-center">
-                      <p className="text-lg md:text-xl text-gray-700 mb-2">
-                        {selectedDevice ? (
-                          <span className="text-3xl md:text-4xl">{selectedDevice.icon}</span>
-                        ) : (
-                          <span className="text-3xl md:text-4xl">🔌</span>
-                        )}
-                      </p>
-                      <p className="text-xl md:text-2xl font-bold text-gray-800">
-                        {selectedDevice ? selectedDevice.name : 'Custom Device'}
-                      </p>
-                      <p className="text-lg md:text-xl text-gray-600 mt-2">
-                        {result.watts} Watts × {result.hours} Hours
-                      </p>
-                    </div>
-                  </div>
+          {/* Hours Slider/Counter */}
+          <div className="space-y-3">
+             <div className="flex justify-between items-center">
+              <label className="text-sm font-semibold text-slate-500">Usage per Day</label>
+              <span className={`text-xl font-bold ${selectedDevice === 'custom' ? 'text-purple-600' : 'text-blue-600'}`}>{hours} <span className="text-sm font-normal text-slate-500">hours</span></span>
+            </div>
+            
+            {/* Range Slider */}
+            <input 
+              type="range" 
+              min="0.5" 
+              max="24" 
+              step="0.5"
+              value={hours}
+              onChange={(e) => setHours(parseFloat(e.target.value))}
+              className={`w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer ${selectedDevice === 'custom' ? 'accent-purple-600' : 'accent-blue-600'}`}
+            />
+            
+            {/* Quick Buttons */}
+            <div className="flex justify-between gap-2">
+              {[1, 4, 8, 12, 24].map(h => (
+                <button 
+                  key={h}
+                  onClick={() => setHours(h)}
+                  className={`flex-1 py-1 rounded-lg text-xs font-semibold border ${hours === h ? (selectedDevice === 'custom' ? 'bg-purple-100 border-purple-200 text-purple-700' : 'bg-blue-100 border-blue-200 text-blue-700') : 'bg-white border-gray-100 text-slate-500'}`}
+                >
+                  {h}h
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
 
-                  {/* Cost Breakdown */}
-                  <div className="space-y-4 mb-6">
-                    {/* Daily Cost */}
-                    <div className="bg-green-50 rounded-2xl p-5 md:p-6">
-                      <p className="text-lg md:text-xl text-gray-600 mb-2">Daily Cost</p>
-                      <p className="text-4xl md:text-5xl font-bold text-green-600">
-                        ₹{result.costPerDay}
-                      </p>
-                      <p className="text-sm md:text-base text-gray-500 mt-2">
-                        ({result.unitsPerDay} units)
-                      </p>
-                    </div>
+        {/* --- Step 3: Result --- */}
+        <section className={`rounded-3xl p-6 shadow-lg transition-colors duration-300 ${costBg} border-2 ${costPerDay > 50 ? 'border-orange-100' : 'border-emerald-100'}`}>
+          <h2 className="text-center font-medium text-slate-600 mb-4 uppercase tracking-widest text-xs">Estimated Cost</h2>
+          
+          <div className="flex items-end justify-center gap-1 mb-2">
+            <span className={`text-5xl font-extrabold ${costColor}`}>₹{Math.round(costPerDay)}</span>
+            <span className="text-lg font-medium text-slate-500 mb-2">/ day</span>
+          </div>
+          
+          <div className="h-px bg-slate-200/50 w-full my-4"></div>
 
-                    {/* Monthly Cost */}
-                    <div className="bg-purple-50 rounded-2xl p-5 md:p-6">
-                      <p className="text-lg md:text-xl text-gray-600 mb-2">Monthly Cost</p>
-                      <p className="text-4xl md:text-5xl font-bold text-purple-600">
-                        ₹{result.costPerMonth}
-                      </p>
-                      <p className="text-sm md:text-base text-gray-500 mt-2">
-                        ({result.unitsPerMonth} units)
-                      </p>
-                    </div>
-                  </div>
+          <div className="flex justify-between items-center">
+            <div className="text-left">
+              <p className="text-xs text-slate-500 font-medium uppercase">Monthly</p>
+              <p className={`text-2xl font-bold ${costColor}`}>₹{Math.round(costPerMonth).toLocaleString()}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-slate-500 font-medium uppercase">Consumption</p>
+              <p className="text-2xl font-bold text-slate-700">{unitsPerDay.toFixed(1)} <span className="text-sm font-normal text-slate-500">units</span></p>
+            </div>
+          </div>
+          
+          {/* Context Message */}
+          <div className="mt-4 bg-white/60 p-3 rounded-xl flex gap-3 items-start">
+            <Info className="flex-shrink-0 text-slate-400 mt-0.5" size={18} />
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Using a <strong>{watts}W</strong> device for <strong>{hours} hours</strong> consumes <strong>{unitsPerDay.toFixed(2)} units</strong>. At ₹{rate}/unit, this costs ₹{costPerDay.toFixed(1)}.
+            </p>
+          </div>
+        </section>
 
-                  {/* Info Box */}
-                  <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 md:p-5 mb-6">
-                    <p className="text-base md:text-lg text-gray-700 text-center">
-                      💡 <strong>Rate:</strong> ₹{RATE_PER_UNIT} per unit (kWh)
-                    </p>
-                  </div>
-
-                  {/* Reset Button */}
-                  <button
-                    onClick={handleReset}
-                    className="w-full bg-secondary hover:bg-blue-600 text-white font-bold py-5 md:py-6 px-6 rounded-2xl text-xl md:text-2xl transition-colors shadow-lg touch-target"
-                  >
-                    🔄 Calculate Again
-                  </button>
-                </>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-6 text-white">
-          <p className="text-sm md:text-base opacity-90">
-            Don't fear electricity bills, use them wisely 💪
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
-  )
+  );
 }
-
-export default App
-
