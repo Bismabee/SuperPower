@@ -283,27 +283,51 @@ export default function App() {
             {/* V × A Calculator */}
             {showVACalculator && (
               <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-3">
-                <p className="text-xs text-slate-600 font-medium">
-                  💡 Formula: <strong>Watts = Volts × Amps</strong>
+                <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 mb-3">
+                  <p className="text-xs font-bold text-red-600 mb-2">⚠️ IMPORTANT: Use OUTPUT values (Not INPUT)</p>
+                  <p className="text-xs text-slate-600 mb-2">
+                    • <strong>INPUT</strong> = Power from wall socket (ignore this)
+                  </p>
+                  <p className="text-xs text-slate-600 mb-2">
+                    • <strong>OUTPUT</strong> = Power to your device (use this!)
+                  </p>
+                  <p className="text-xs text-slate-600">
+                    • Ignore Hz (frequency) - not needed
+                  </p>
+                </div>
+                <p className="text-xs text-slate-600 font-medium mb-2">
+                  💡 Formula: <strong>Watts = OUTPUT Volts × OUTPUT Amps</strong>
                 </p>
+                <div className="bg-green-50 border border-green-300 rounded-lg p-2 mb-3">
+                  <p className="text-xs text-green-800">
+                    <strong>Example:</strong> Phone charger says "Output: 5V = 3A"
+                  </p>
+                  <p className="text-xs text-green-700 mt-1">
+                    Enter: <strong>5</strong> (volts) and <strong>3</strong> (amps) = <strong>15W</strong>
+                  </p>
+                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs text-slate-600 font-medium block mb-1">Volts (V)</label>
+                    <label className="text-xs text-slate-600 font-medium block mb-1">
+                      OUTPUT Volts (V)
+                    </label>
                     <input
                       type="number"
                       value={volts}
                       onChange={(e) => setVolts(e.target.value)}
-                      placeholder="e.g. 220"
+                      placeholder="e.g. 5 or 220"
                       className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="text-xs text-slate-600 font-medium block mb-1">Amps (A)</label>
+                    <label className="text-xs text-slate-600 font-medium block mb-1">
+                      OUTPUT Amps (A)
+                    </label>
                     <input
                       type="number"
                       value={amps}
                       onChange={(e) => setAmps(e.target.value)}
-                      placeholder="e.g. 2"
+                      placeholder="e.g. 3 or 2"
                       className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
                     />
                   </div>
@@ -492,13 +516,33 @@ export default function App() {
                   <p className="text-sm text-slate-600 mb-2">
                     Many devices (especially chargers) show V and A instead of W.
                   </p>
+                  <div className="bg-red-50 border-2 border-red-300 rounded p-2 mb-2">
+                    <p className="text-xs font-bold text-red-700 mb-1">⚠️ VERY IMPORTANT:</p>
+                    <p className="text-xs text-red-600 mb-1">
+                      • Use <strong>OUTPUT</strong> values (NOT Input!)
+                    </p>
+                    <p className="text-xs text-red-600 mb-1">
+                      • Input = wall socket power (ignore)
+                    </p>
+                    <p className="text-xs text-red-600">
+                      • Ignore Hz (50/60Hz) - not needed
+                    </p>
+                  </div>
                   <p className="text-sm text-slate-600 font-mono bg-white p-2 rounded border border-yellow-300">
-                    <strong>Formula:</strong> Watts = Volts × Amps
+                    <strong>Formula:</strong> Watts = Output Volts × Output Amps
                   </p>
-                  <p className="text-sm text-slate-600 mt-2">
-                    Example: 220V × 2A = 440W
+                  <div className="bg-white p-2 rounded border border-yellow-300 mt-2">
+                    <p className="text-xs font-semibold text-slate-700 mb-1">📱 Phone Charger Example:</p>
+                    <p className="text-xs text-slate-500 line-through">Input: 100-120V, 0.9A ❌</p>
+                    <p className="text-xs text-green-700 font-semibold">Output: 5V = 3A ✓</p>
+                    <p className="text-xs text-slate-600 mt-1">
+                      Calculation: 5V × 3A = <strong>15W</strong>
+                    </p>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2 italic">
+                    💡 If multiple outputs listed (5V, 9V, 20V), use the one your device uses. When in doubt, use the highest Amp value.
                   </p>
-                  <p className="text-xs text-slate-500 mt-2">
+                  <p className="text-xs text-slate-500 mt-1">
                     💡 Use the calculator below the Watts box!
                   </p>
                 </div>
