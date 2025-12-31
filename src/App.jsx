@@ -111,20 +111,20 @@ export default function App() {
       <ElectricityVibes />
       
       {/* --- Header --- */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+      <header className="bg-black shadow-lg sticky top-0 z-10">
         <div className="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="bg-yellow-400 p-2 rounded-lg text-white">
+            <div className="bg-yellow-400 p-2 rounded-lg text-black">
               <Zap size={24} fill="currentColor" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-slate-800">SuperPower</h1>
-              <p className="text-xs text-slate-500">Electricity Calculator</p>
+              <h1 className="text-xl font-bold tracking-tight text-white">SuperPower</h1>
+              <p className="text-xs text-gray-400">Electricity Calculator</p>
             </div>
           </div>
           <button 
             onClick={() => setShowSettings(!showSettings)}
-            className="p-2 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-full transition-colors"
+            className="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full transition-colors"
           >
             {showSettings ? <X size={20} /> : <Settings size={20} />}
           </button>
@@ -175,7 +175,7 @@ export default function App() {
             </div>
             <button 
               onClick={() => setHelpDialog('rate')}
-              className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
+              className="flex items-center gap-1 bg-black hover:bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
             >
               <Eye size={14} />
               <span>Know More</span>
@@ -215,12 +215,12 @@ export default function App() {
               const Icon = device.icon;
               
               // Custom Logic for Styles
-              let cardStyles = "bg-white border-gray-200 text-slate-600 hover:border-blue-300 hover:bg-blue-50";
+              let cardStyles = "bg-white border-gray-200 text-slate-600 hover:border-gray-400 hover:bg-gray-50";
               if (isSelected) {
                 if (isCustom) {
                    cardStyles = "bg-purple-600 border-purple-600 text-white shadow-md scale-105";
                 } else {
-                   cardStyles = "bg-blue-600 border-blue-600 text-white shadow-md scale-105";
+                   cardStyles = "bg-black border-black text-white shadow-md scale-105";
                 }
               } else if (isCustom) {
                 // Unselected Custom Style
@@ -260,7 +260,7 @@ export default function App() {
               </div>
               <button 
                 onClick={() => setHelpDialog('watts')}
-                className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
+                className="flex items-center gap-1 bg-black hover:bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
               >
                 <Eye size={14} />
                 <span>Know More</span>
@@ -271,7 +271,7 @@ export default function App() {
                 type="number"
                 value={watts}
                 onChange={handleWattsChange}
-                className={`w-full text-3xl font-bold bg-gray-50 border-none rounded-xl p-3 focus:ring-2 transition-all outline-none ${selectedDevice === 'custom' ? 'text-purple-700 focus:ring-purple-500' : 'text-slate-800 focus:ring-blue-500'}`}
+                className={`w-full text-3xl font-bold bg-gray-50 border-none rounded-xl p-3 focus:ring-2 transition-all outline-none ${selectedDevice === 'custom' ? 'text-purple-700 focus:ring-purple-500' : 'text-slate-800 focus:ring-black'}`}
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">W</span>
             </div>
@@ -279,14 +279,14 @@ export default function App() {
             {/* V × A Calculator Toggle */}
             <button
               onClick={() => setShowVACalculator(!showVACalculator)}
-              className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 mt-2"
+              className="text-xs text-gray-700 hover:text-black font-medium flex items-center gap-1 mt-2"
             >
               {showVACalculator ? '▼' : '▶'} Don't know Watts? Calculate from Volts × Amps
             </button>
 
             {/* V × A Calculator */}
             {showVACalculator && (
-              <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-3">
+              <div className="mt-3 p-4 bg-gray-50 border border-gray-300 rounded-xl space-y-3">
                 <div className="bg-yellow-50 border border-yellow-300 rounded-lg p-3 mb-3">
                   <p className="text-xs font-bold text-red-600 mb-2">⚠️ IMPORTANT: Use OUTPUT values (Not INPUT)</p>
                   <p className="text-xs text-slate-600 mb-2">
@@ -320,7 +320,7 @@ export default function App() {
                       value={volts}
                       onChange={(e) => setVolts(e.target.value)}
                       placeholder="e.g. 5 or 220"
-                      className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
+                      className="w-full text-lg font-bold bg-white border-2 border-gray-300 rounded-lg p-2 focus:border-black outline-none"
                     />
                   </div>
                   <div>
@@ -332,14 +332,14 @@ export default function App() {
                       value={amps}
                       onChange={(e) => setAmps(e.target.value)}
                       placeholder="e.g. 3 or 2"
-                      className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
+                      className="w-full text-lg font-bold bg-white border-2 border-gray-300 rounded-lg p-2 focus:border-black outline-none"
                     />
                   </div>
                 </div>
                 {volts && amps && (
-                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3">
+                  <div className="bg-white border-2 border-gray-300 rounded-lg p-3">
                     <p className="text-xs text-slate-500 mb-1">Calculated Watts:</p>
-                    <p className="text-2xl font-bold text-blue-600">
+                    <p className="text-2xl font-bold text-black">
                       {volts} V × {amps} A = {(parseFloat(volts) * parseFloat(amps)).toFixed(1)} W
                     </p>
                     <button
@@ -348,7 +348,7 @@ export default function App() {
                         setSelectedDevice('custom');
                         setShowVACalculator(false);
                       }}
-                      className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors"
+                      className="mt-2 w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-lg transition-colors"
                     >
                       Use This Value ✓
                     </button>
@@ -365,13 +365,13 @@ export default function App() {
                 <label className="text-sm font-semibold text-slate-500">
                   Usage per Day
                 </label>
-                <p className={`text-xl font-bold mt-1 ${selectedDevice === 'custom' ? 'text-purple-600' : 'text-blue-600'}`}>
+                <p className={`text-xl font-bold mt-1 ${selectedDevice === 'custom' ? 'text-purple-600' : 'text-black'}`}>
                   {hours} <span className="text-sm font-normal text-slate-500">hours</span>
                 </p>
               </div>
               <button 
                 onClick={() => setHelpDialog('hours')}
-                className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
+                className="flex items-center gap-1 bg-black hover:bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md flex-shrink-0"
               >
                 <Eye size={14} />
                 <span>Know More</span>
@@ -386,7 +386,7 @@ export default function App() {
               step="0.5"
               value={hours}
               onChange={(e) => setHours(parseFloat(e.target.value))}
-              className={`w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer ${selectedDevice === 'custom' ? 'accent-purple-600' : 'accent-blue-600'}`}
+              className={`w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer ${selectedDevice === 'custom' ? 'accent-purple-600' : 'accent-black'}`}
             />
             
             {/* Quick Buttons */}
@@ -395,7 +395,7 @@ export default function App() {
                 <button 
                   key={h}
                   onClick={() => setHours(h)}
-                  className={`flex-1 py-1 rounded-lg text-xs font-semibold border ${hours === h ? (selectedDevice === 'custom' ? 'bg-purple-100 border-purple-200 text-purple-700' : 'bg-blue-100 border-blue-200 text-blue-700') : 'bg-white border-gray-100 text-slate-500'}`}
+                  className={`flex-1 py-1 rounded-lg text-xs font-semibold border ${hours === h ? (selectedDevice === 'custom' ? 'bg-purple-100 border-purple-200 text-purple-700' : 'bg-black text-white border-black') : 'bg-white border-gray-100 text-slate-500'}`}
                 >
                   {h}h
                 </button>
@@ -591,7 +591,7 @@ export default function App() {
 
             <button 
               onClick={() => setHelpDialog(null)}
-              className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors"
+              className="w-full mt-6 bg-black hover:bg-gray-800 text-white font-bold py-3 rounded-xl transition-colors"
             >
               Got it! 👍
             </button>
