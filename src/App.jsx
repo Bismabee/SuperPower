@@ -155,19 +155,20 @@ export default function App() {
         )}
 
         {/* --- Quick Rate Selector --- */}
-        <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4 rounded-2xl">
-          <div className="flex items-center justify-between">
+        <section className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 p-4 rounded-2xl relative">
+          <button 
+            onClick={() => setHelpDialog('rate')}
+            className="absolute top-3 right-3 flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md"
+          >
+            <Eye size={14} />
+            <span>Know More</span>
+          </button>
+          <div className="flex items-center justify-between pr-24">
             <div className="flex items-center gap-2">
               <Zap size={18} className="text-amber-600" />
               <div>
-                <label className="text-sm font-semibold text-slate-700 flex items-center gap-1">
+                <label className="text-sm font-semibold text-slate-700">
                   Electricity Rate
-                  <button 
-                    onClick={() => setHelpDialog('rate')}
-                    className="text-blue-500 hover:text-blue-700 transition-colors"
-                  >
-                    <Eye size={14} />
-                  </button>
                 </label>
                 <p className="text-xs text-slate-500">₹ per unit (kWh)</p>
               </div>
@@ -238,16 +239,17 @@ export default function App() {
         <section className="bg-white p-5 rounded-3xl shadow-sm border border-gray-100 space-y-6">
           
           {/* Watts Input */}
-          <div className="space-y-2">
-            <div className="flex justify-between items-end">
-              <label className="text-sm font-semibold text-slate-500 flex items-center gap-1">
+          <div className="space-y-2 relative">
+            <button 
+              onClick={() => setHelpDialog('watts')}
+              className="absolute top-0 right-0 flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md z-10"
+            >
+              <Eye size={14} />
+              <span>Know More</span>
+            </button>
+            <div className="flex justify-between items-end pr-24">
+              <label className="text-sm font-semibold text-slate-500">
                 Power (Watts)
-                <button 
-                  onClick={() => setHelpDialog('watts')}
-                  className="text-blue-500 hover:text-blue-700 transition-colors"
-                >
-                  <Eye size={14} />
-                </button>
               </label>
               <span className="text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded">
                 1000W = 1 Unit / Hour
@@ -265,16 +267,17 @@ export default function App() {
           </div>
 
           {/* Hours Slider/Counter */}
-          <div className="space-y-3">
-             <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-500 flex items-center gap-1">
+          <div className="space-y-3 relative">
+            <button 
+              onClick={() => setHelpDialog('hours')}
+              className="absolute top-0 right-0 flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full shadow-sm transition-all hover:shadow-md z-10"
+            >
+              <Eye size={14} />
+              <span>Know More</span>
+            </button>
+             <div className="flex justify-between items-center pr-24">
+              <label className="text-sm font-semibold text-slate-500">
                 Usage per Day
-                <button 
-                  onClick={() => setHelpDialog('hours')}
-                  className="text-blue-500 hover:text-blue-700 transition-colors"
-                >
-                  <Eye size={14} />
-                </button>
               </label>
               <span className={`text-xl font-bold ${selectedDevice === 'custom' ? 'text-purple-600' : 'text-blue-600'}`}>{hours} <span className="text-sm font-normal text-slate-500">hours</span></span>
             </div>
