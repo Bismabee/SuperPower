@@ -1,8 +1,8 @@
 {
-  "name": "SuperPower - Electricity Cost Calculator",
-  "short_name": "SuperPower",
-  "description": "Calculate your electricity bill before it arrives. Simple, fast, and free.",
-  "start_url": "/",
+  "name": "MyPowerBill - Electricity Cost Calculator India",
+  "short_name": "MyPowerBill",
+  "description": "Calculate your electricity bill before it arrives. Simple, fast, and free electricity calculator for India.",
+  "start_url": "https://mypowerbill.vercel.app/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",

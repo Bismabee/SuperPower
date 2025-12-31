@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://github.com/Bismabee/SuperPower/sitemap.xml
+Sitemap: https://mypowerbill.vercel.app/sitemap.xml
 
 # Popular search engines
 User-agent: Googlebot

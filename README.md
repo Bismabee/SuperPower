@@ -1,10 +1,13 @@
-# ⚡ SuperPower - Free Electricity Bill Calculator India
+# ⚡ MyPowerBill - Free Electricity Bill Calculator India
 
 > **Calculate your electricity bill before it arrives!** Simple, fast, and free electricity cost calculator for India.
 
-[![Made in India](https://img.shields.io/badge/Made%20in-India-orange?style=flat-square)](https://github.com/Bismabee/SuperPower)
+🌐 **Live App:** [https://mypowerbill.vercel.app](https://mypowerbill.vercel.app)
+
+[![Made in India](https://img.shields.io/badge/Made%20in-India-orange?style=flat-square)](https://mypowerbill.vercel.app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.0-green?style=flat-square)](https://github.com/Bismabee/SuperPower)
+[![Version](https://img.shields.io/badge/Version-1.0-green?style=flat-square)](https://mypowerbill.vercel.app)
+[![Live](https://img.shields.io/badge/Live-Vercel-black?style=flat-square)](https://mypowerbill.vercel.app)
 
 A simple, mobile-first electricity cost calculator designed for Indian households to understand their electricity consumption and costs. Calculate bills for heaters, fans, bulbs, chargers, AC, and any electrical device.
 
