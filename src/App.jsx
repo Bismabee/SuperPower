@@ -14,7 +14,8 @@ import {
   X,
   SlidersHorizontal,
   Box,
-  Droplets
+  Droplets,
+  Eye
 } from 'lucide-react';
 import SplashScreen from './components/SplashScreen';
 
@@ -47,6 +48,7 @@ export default function App() {
   const [rate, setRate] = useState(6.0); // Default rate
   const [selectedDevice, setSelectedDevice] = useState('heater_l');
   const [showSettings, setShowSettings] = useState(false);
+  const [helpDialog, setHelpDialog] = useState(null); // 'rate', 'watts', 'hours', or null
 
   // --- Splash Screen Timer ---
   useEffect(() => {
@@ -158,7 +160,15 @@ export default function App() {
             <div className="flex items-center gap-2">
               <Zap size={18} className="text-amber-600" />
               <div>
-                <label className="text-sm font-semibold text-slate-700">Electricity Rate</label>
+                <label className="text-sm font-semibold text-slate-700 flex items-center gap-1">
+                  Electricity Rate
+                  <button 
+                    onClick={() => setHelpDialog('rate')}
+                    className="text-blue-500 hover:text-blue-700 transition-colors"
+                  >
+                    <Eye size={14} />
+                  </button>
+                </label>
                 <p className="text-xs text-slate-500">₹ per unit (kWh)</p>
               </div>
             </div>
@@ -230,7 +240,15 @@ export default function App() {
           {/* Watts Input */}
           <div className="space-y-2">
             <div className="flex justify-between items-end">
-              <label className="text-sm font-semibold text-slate-500">Power (Watts)</label>
+              <label className="text-sm font-semibold text-slate-500 flex items-center gap-1">
+                Power (Watts)
+                <button 
+                  onClick={() => setHelpDialog('watts')}
+                  className="text-blue-500 hover:text-blue-700 transition-colors"
+                >
+                  <Eye size={14} />
+                </button>
+              </label>
               <span className="text-xs text-slate-400 bg-slate-50 px-2 py-1 rounded">
                 1000W = 1 Unit / Hour
               </span>
@@ -249,7 +267,15 @@ export default function App() {
           {/* Hours Slider/Counter */}
           <div className="space-y-3">
              <div className="flex justify-between items-center">
-              <label className="text-sm font-semibold text-slate-500">Usage per Day</label>
+              <label className="text-sm font-semibold text-slate-500 flex items-center gap-1">
+                Usage per Day
+                <button 
+                  onClick={() => setHelpDialog('hours')}
+                  className="text-blue-500 hover:text-blue-700 transition-colors"
+                >
+                  <Eye size={14} />
+                </button>
+              </label>
               <span className={`text-xl font-bold ${selectedDevice === 'custom' ? 'text-purple-600' : 'text-blue-600'}`}>{hours} <span className="text-sm font-normal text-slate-500">hours</span></span>
             </div>
             
@@ -323,6 +349,109 @@ export default function App() {
         </section>
 
       </main>
+
+      {/* --- Help Dialog --- */}
+      {helpDialog && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setHelpDialog(null)}>
+          <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-bold text-slate-800">
+                {helpDialog === 'rate' && '💰 Electricity Rate'}
+                {helpDialog === 'watts' && '⚡ Power (Watts)'}
+                {helpDialog === 'hours' && '⏰ Usage Hours'}
+              </h3>
+              <button onClick={() => setHelpDialog(null)} className="text-slate-400 hover:text-slate-700">
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Rate Help */}
+            {helpDialog === 'rate' && (
+              <div className="space-y-4">
+                <p className="text-slate-700 leading-relaxed">
+                  This is how much you pay for 1 unit (kWh) of electricity.
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">📍 Where to find it:</p>
+                  <ul className="text-sm text-slate-600 space-y-2">
+                    <li>• Check your electricity bill</li>
+                    <li>• Look for "Rate per Unit" or "Tariff"</li>
+                    <li>• Usually between ₹4 - ₹8 per unit</li>
+                    <li>• Contact your electricity office</li>
+                  </ul>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">📝 Example:</p>
+                  <p className="text-sm text-slate-600">
+                    If your bill shows ₹6.00 per unit, enter <strong>6</strong> in the rate field.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Watts Help */}
+            {helpDialog === 'watts' && (
+              <div className="space-y-4">
+                <p className="text-slate-700 leading-relaxed">
+                  Watts (W) tells you how much power a device uses. Higher watts = more electricity.
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">📍 Where to find it:</p>
+                  <ul className="text-sm text-slate-600 space-y-2">
+                    <li>• Check the back of the device</li>
+                    <li>• Look at the device label/sticker</li>
+                    <li>• Check the manual/box</li>
+                    <li>• Look for "W" or "Watts"</li>
+                  </ul>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">📝 Examples:</p>
+                  <ul className="text-sm text-slate-600 space-y-1">
+                    <li>• LED Bulb: 9W - 15W</li>
+                    <li>• Fan: 60W - 80W</li>
+                    <li>• Heater: 1000W - 2000W</li>
+                    <li>• Phone Charger: 10W - 20W</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* Hours Help */}
+            {helpDialog === 'hours' && (
+              <div className="space-y-4">
+                <p className="text-slate-700 leading-relaxed">
+                  How many hours per day do you use this device?
+                </p>
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">💡 How to estimate:</p>
+                  <ul className="text-sm text-slate-600 space-y-2">
+                    <li>• Think about your daily routine</li>
+                    <li>• Count hours you use it</li>
+                    <li>• Be realistic, not exact</li>
+                    <li>• You can adjust later</li>
+                  </ul>
+                </div>
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">📝 Examples:</p>
+                  <ul className="text-sm text-slate-600 space-y-1">
+                    <li>• Bulb at night: 5-6 hours</li>
+                    <li>• Fan in summer: 8-10 hours</li>
+                    <li>• Heater in winter: 4-6 hours</li>
+                    <li>• Phone charging: 2-3 hours</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            <button 
+              onClick={() => setHelpDialog(null)}
+              className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors"
+            >
+              Got it! 👍
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
