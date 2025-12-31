@@ -288,6 +288,18 @@ export default function App() {
             <span className="text-lg font-medium text-slate-500 mb-2">/ day</span>
           </div>
           
+          {/* Calculation Breakdown */}
+          <div className="flex justify-center mb-4">
+            <div className="bg-white/70 border-2 border-slate-200 rounded-lg px-3 py-2 inline-block">
+              <p className="text-xs text-slate-600 font-mono text-center">
+                <span className="font-semibold">{watts}W</span> × <span className="font-semibold">{hours}h</span> ÷ 1000 = <span className="font-semibold">{unitsPerDay.toFixed(2)}</span> units
+              </p>
+              <p className="text-xs text-slate-600 font-mono text-center mt-1">
+                <span className="font-semibold">{unitsPerDay.toFixed(2)}</span> units × <span className="font-semibold">₹{rate.toFixed(2)}</span> = <span className={`font-bold ${costColor}`}>₹{costPerDay.toFixed(2)}</span>
+              </p>
+            </div>
+          </div>
+          
           <div className="h-px bg-slate-200/50 w-full my-4"></div>
 
           <div className="flex justify-between items-center">
