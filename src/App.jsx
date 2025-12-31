@@ -49,6 +49,9 @@ export default function App() {
   const [selectedDevice, setSelectedDevice] = useState('heater_l');
   const [showSettings, setShowSettings] = useState(false);
   const [helpDialog, setHelpDialog] = useState(null); // 'rate', 'watts', 'hours', or null
+  const [showVACalculator, setShowVACalculator] = useState(false);
+  const [volts, setVolts] = useState('');
+  const [amps, setAmps] = useState('');
 
   // --- Splash Screen Timer ---
   useEffect(() => {
@@ -268,6 +271,63 @@ export default function App() {
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">W</span>
             </div>
+
+            {/* V × A Calculator Toggle */}
+            <button
+              onClick={() => setShowVACalculator(!showVACalculator)}
+              className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-1 mt-2"
+            >
+              {showVACalculator ? '▼' : '▶'} Don't know Watts? Calculate from Volts × Amps
+            </button>
+
+            {/* V × A Calculator */}
+            {showVACalculator && (
+              <div className="mt-3 p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-3">
+                <p className="text-xs text-slate-600 font-medium">
+                  💡 Formula: <strong>Watts = Volts × Amps</strong>
+                </p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-slate-600 font-medium block mb-1">Volts (V)</label>
+                    <input
+                      type="number"
+                      value={volts}
+                      onChange={(e) => setVolts(e.target.value)}
+                      placeholder="e.g. 220"
+                      className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-slate-600 font-medium block mb-1">Amps (A)</label>
+                    <input
+                      type="number"
+                      value={amps}
+                      onChange={(e) => setAmps(e.target.value)}
+                      placeholder="e.g. 2"
+                      className="w-full text-lg font-bold bg-white border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+                {volts && amps && (
+                  <div className="bg-white border-2 border-blue-300 rounded-lg p-3">
+                    <p className="text-xs text-slate-500 mb-1">Calculated Watts:</p>
+                    <p className="text-2xl font-bold text-blue-600">
+                      {volts} V × {amps} A = {(parseFloat(volts) * parseFloat(amps)).toFixed(1)} W
+                    </p>
+                    <button
+                      onClick={() => {
+                        setWatts(Math.round(parseFloat(volts) * parseFloat(amps)));
+                        setSelectedDevice('custom');
+                        setShowVACalculator(false);
+                      }}
+                      className="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition-colors"
+                    >
+                      Use This Value ✓
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Hours Slider/Counter */}
@@ -415,13 +475,28 @@ export default function App() {
                     <li>• Look for "W" or "Watts"</li>
                   </ul>
                 </div>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">🔌 Only see Volts (V) and Amps (A)?</p>
+                  <p className="text-sm text-slate-600 mb-2">
+                    Many devices (especially chargers) show V and A instead of W.
+                  </p>
+                  <p className="text-sm text-slate-600 font-mono bg-white p-2 rounded border border-yellow-300">
+                    <strong>Formula:</strong> Watts = Volts × Amps
+                  </p>
+                  <p className="text-sm text-slate-600 mt-2">
+                    Example: 220V × 2A = 440W
+                  </p>
+                  <p className="text-xs text-slate-500 mt-2">
+                    💡 Use the calculator below the Watts box!
+                  </p>
+                </div>
                 <div className="bg-green-50 border border-green-200 rounded-xl p-4">
                   <p className="text-sm font-semibold text-slate-700 mb-2">📝 Examples:</p>
                   <ul className="text-sm text-slate-600 space-y-1">
                     <li>• LED Bulb: 9W - 15W</li>
                     <li>• Fan: 60W - 80W</li>
                     <li>• Heater: 1000W - 2000W</li>
-                    <li>• Phone Charger: 10W - 20W</li>
+                    <li>• Phone Charger: 5V × 2A = 10W</li>
                   </ul>
                 </div>
               </div>
