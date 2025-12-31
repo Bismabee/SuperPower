@@ -111,10 +111,10 @@ export default function App() {
       <ElectricityVibes />
       
       {/* --- Header --- */}
-      <header className="bg-black shadow-lg sticky top-0 z-10">
+      <header className="bg-black shadow-lg sticky top-0 z-10" role="banner">
         <div className="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="bg-yellow-400 p-2 rounded-lg text-black">
+            <div className="bg-yellow-400 p-2 rounded-lg text-black" aria-hidden="true">
               <Zap size={24} fill="currentColor" />
             </div>
             <div>
@@ -125,24 +125,31 @@ export default function App() {
           <button 
             onClick={() => setShowSettings(!showSettings)}
             className="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full transition-colors"
+            aria-label={showSettings ? "Close settings" : "Open settings"}
+            aria-expanded={showSettings}
           >
             {showSettings ? <X size={20} /> : <Settings size={20} />}
           </button>
         </div>
       </header>
 
-      <main className="max-w-md mx-auto px-4 pt-6 space-y-6 relative z-10">
+      <main className="max-w-md mx-auto px-4 pt-6 space-y-6 relative z-10" role="main">
 
         {/* --- Settings (Collapsible) --- */}
         {showSettings && (
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 animate-in slide-in-from-top-4 duration-300">
-            <h3 className="font-semibold text-sm text-slate-500 mb-3 uppercase tracking-wider">Settings</h3>
+          <div 
+            className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 animate-in slide-in-from-top-4 duration-300"
+            role="region"
+            aria-label="Settings panel"
+          >
+            <h3 className="font-semibold text-sm text-slate-500 mb-3 uppercase tracking-wider" id="settings-heading">Settings</h3>
             <div className="flex items-center justify-between">
               <label className="font-medium text-slate-700">Electricity Rate (₹/unit)</label>
               <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
                 <button 
                   onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(2))))}
                   className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
+                  aria-label="Decrease electricity rate"
                 >-</button>
                 <input 
                   type="number" 
@@ -150,10 +157,12 @@ export default function App() {
                   value={rate.toFixed(2)}
                   onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
                   className="w-14 text-center bg-transparent font-bold outline-none"
+                  aria-label="Electricity rate in settings"
                 />
                 <button 
                   onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(2)))}
                   className="w-8 h-8 flex items-center justify-center bg-white rounded shadow-sm text-slate-700 font-bold"
+                  aria-label="Increase electricity rate"
                 >+</button>
               </div>
             </div>
@@ -186,6 +195,7 @@ export default function App() {
               <button 
                 onClick={() => setRate(r => Math.max(0, parseFloat((r - 0.5).toFixed(2))))}
                 className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
+                aria-label="Decrease electricity rate by 0.5"
               >-</button>
               <input 
                 type="number" 
@@ -193,19 +203,22 @@ export default function App() {
                 value={rate.toFixed(2)}
                 onChange={(e) => setRate(parseFloat(e.target.value) || 0)}
                 className="w-16 text-center bg-transparent font-bold outline-none text-slate-800 text-lg"
+                aria-label="Electricity rate per unit in rupees"
+                id="rate-input"
               />
               <button 
                 onClick={() => setRate(r => parseFloat((r + 0.5).toFixed(2)))}
                 className="w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-bold transition-colors"
+                aria-label="Increase electricity rate by 0.5"
               >+</button>
             </div>
           </div>
         </section>
 
         {/* --- Step 1: Device Selection --- */}
-        <section>
-          <h2 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
-            <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+        <section aria-labelledby="device-selection-heading">
+          <h2 id="device-selection-heading" className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
+            <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs" aria-hidden="true">1</span>
             Select Device
           </h2>
           <div className="grid grid-cols-4 gap-2">
@@ -235,8 +248,10 @@ export default function App() {
                     flex flex-col items-center justify-center p-2 rounded-xl border transition-all duration-200
                     ${cardStyles}
                   `}
+                  aria-label={`Select ${device.name} (${device.watts} watts)`}
+                  aria-pressed={isSelected}
                 >
-                  <Icon size={24} strokeWidth={1.5} className="mb-1" />
+                  <Icon size={24} strokeWidth={1.5} className="mb-1" aria-hidden="true" />
                   <span className="text-[10px] font-medium leading-tight text-center">{device.name}</span>
                 </button>
               );
@@ -272,6 +287,8 @@ export default function App() {
                 value={watts}
                 onChange={handleWattsChange}
                 className={`w-full text-3xl font-bold bg-gray-50 border-none rounded-xl p-3 focus:ring-2 transition-all outline-none ${selectedDevice === 'custom' ? 'text-purple-700 focus:ring-purple-500' : 'text-slate-800 focus:ring-black'}`}
+                aria-label="Device power consumption in watts"
+                id="watts-input"
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">W</span>
             </div>
@@ -321,6 +338,8 @@ export default function App() {
                       onChange={(e) => setVolts(e.target.value)}
                       placeholder="e.g. 5 or 220"
                       className="w-full text-lg font-bold bg-white border-2 border-gray-300 rounded-lg p-2 focus:border-black outline-none"
+                      aria-label="Output voltage in volts"
+                      id="volts-input"
                     />
                   </div>
                   <div>
@@ -333,6 +352,8 @@ export default function App() {
                       onChange={(e) => setAmps(e.target.value)}
                       placeholder="e.g. 3 or 2"
                       className="w-full text-lg font-bold bg-white border-2 border-gray-300 rounded-lg p-2 focus:border-black outline-none"
+                      aria-label="Output amperage in amps"
+                      id="amps-input"
                     />
                   </div>
                 </div>
@@ -387,6 +408,11 @@ export default function App() {
               value={hours}
               onChange={(e) => setHours(parseFloat(e.target.value))}
               className={`w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer ${selectedDevice === 'custom' ? 'accent-purple-600' : 'accent-black'}`}
+              aria-label="Usage hours per day slider"
+              aria-valuemin="0.5"
+              aria-valuemax="24"
+              aria-valuenow={hours}
+              id="hours-slider"
             />
             
             {/* Quick Buttons */}
@@ -470,15 +496,25 @@ export default function App() {
 
       {/* --- Help Dialog --- */}
       {helpDialog && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setHelpDialog(null)}>
+        <div 
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" 
+          onClick={() => setHelpDialog(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="help-dialog-title"
+        >
           <div className="bg-white rounded-3xl p-6 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-slate-800">
+              <h3 className="text-xl font-bold text-slate-800" id="help-dialog-title">
                 {helpDialog === 'rate' && '💰 Electricity Rate'}
                 {helpDialog === 'watts' && '⚡ Power (Watts)'}
                 {helpDialog === 'hours' && '⏰ Usage Hours'}
               </h3>
-              <button onClick={() => setHelpDialog(null)} className="text-slate-400 hover:text-slate-700">
+              <button 
+                onClick={() => setHelpDialog(null)} 
+                className="text-slate-400 hover:text-slate-700"
+                aria-label="Close help dialog"
+              >
                 <X size={24} />
               </button>
             </div>
