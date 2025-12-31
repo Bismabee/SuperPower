@@ -321,7 +321,7 @@ export default function App() {
           <h2 className="text-center font-medium text-slate-600 mb-4 uppercase tracking-widest text-xs">Estimated Cost</h2>
           
           <div className="flex items-end justify-center gap-1 mb-2">
-            <span className={`text-5xl font-extrabold ${costColor}`}>₹{Math.round(costPerDay)}</span>
+            <span className={`text-5xl font-extrabold ${costColor}`}>₹{costPerDay.toFixed(2)}</span>
             <span className="text-lg font-medium text-slate-500 mb-2">/ day</span>
           </div>
           
@@ -342,11 +342,11 @@ export default function App() {
           <div className="flex justify-between items-center">
             <div className="text-left">
               <p className="text-xs text-slate-500 font-medium uppercase">Monthly</p>
-              <p className={`text-2xl font-bold ${costColor}`}>₹{Math.round(costPerMonth).toLocaleString()}</p>
+              <p className={`text-2xl font-bold ${costColor}`}>₹{costPerMonth.toFixed(2)}</p>
             </div>
             <div className="text-right">
               <p className="text-xs text-slate-500 font-medium uppercase">Consumption</p>
-              <p className="text-2xl font-bold text-slate-700">{unitsPerDay.toFixed(1)} <span className="text-sm font-normal text-slate-500">units</span></p>
+              <p className="text-2xl font-bold text-slate-700">{unitsPerDay.toFixed(2)} <span className="text-sm font-normal text-slate-500">units</span></p>
             </div>
           </div>
           
